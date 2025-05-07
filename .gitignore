@@ -1,0 +1,22 @@
+# Virtual Environment
+env/
+venv/
+
+# Generated certificates
+certificates/
+
+# PDF and Excel files (don't sync these)
+*.pdf
+*.xlsx
+
+# Logs
+*.log
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS specific
+.DS_Store
+Thumbs.db
