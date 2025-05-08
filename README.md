@@ -61,3 +61,33 @@ You can choose to run in test mode first (processes only first 5 entries).
 
 - Generated certificates are saved to the output directory
 - A log file is generated at `output_dir/pdf_certificate_generation.log`
+
+## New Features
+
+### Modular Text Positioning
+
+The text positioning logic has been moved to a separate file, `positioning.py`, for easier customization. Users can now adjust the positioning options and fine-tune the placement of names on certificates by modifying the following variables in `positioning.py`:
+
+```python
+# User-configurable variables for positioning
+selected_position = "right_higher"  # Options: "default", "right_higher"
+up = 0    # Move the position up by this many units
+down = 0  # Move the position down by this many units
+left = 0  # Move the position left by this many units
+right = 0 # Move the position right by this many units
+```
+
+### Positioning Options
+
+The available positioning options are defined in `positioning.py`:
+
+- **default**: Centered horizontally and slightly below the middle vertically.
+- **right_higher**: Shifted slightly to the right and 20 units higher.
+
+### How to Use
+
+1. Open `positioning.py`.
+2. Modify the `selected_position` variable to choose a predefined option.
+3. Adjust the `up`, `down`, `left`, and `right` variables to fine-tune the position.
+
+The main script, `pdf_certificate.py`, now automatically uses these settings when generating certificates.
