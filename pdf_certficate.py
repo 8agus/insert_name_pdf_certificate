@@ -13,6 +13,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from positioning import calculate_position, get_positioning_options, selected_position
 
 # Setup logging
 def setup_logging(log_path):
@@ -115,18 +116,13 @@ def create_certificate_pdf(template_pdf_path, output_dir, row):
         # Get page dimensions (in points)
         page_width, page_height = landscape(A4)
         
-        # Calculate center position
-        x_center = page_width * 0.5 - (text_width / 2)
-        
-        # Lower the vertical position - adjust this value as needed
-        # A4 landscape is 841.89 x 595.28 points
-        # Try different values like 250-350 for y_position
-        y_position = 280  # Lower value moves text down
-        
-        # Debug logging to help with positioning
-        logger.info(f"Page width: {page_width}, Text width: {text_width}")
-        logger.info(f"Placing text at x: {x_center}, y: {y_position}")
-        
+        # Final amendments to the positioning options and selection
+        positions = get_positioning_options()
+        logger.info(f"Using position: {selected_position} - {positions[selected_position]['description']}")
+
+        # Calculate x_center and y_position
+        x_center, y_position = calculate_position(full_name, font_name, 24, page_width, selected_position)
+
         # Draw the name centered horizontally
         c.drawString(x_center, y_position, full_name)
         c.save()
@@ -195,9 +191,9 @@ def process_certificates(excel_path, template_pdf_path, output_dir, test_mode=Fa
 
 def main():
     # Configuration
-    excel_path = "IC-Juniors-Participants.xlsx"
+    excel_path = "iOS Showcase.xlsx"
     
-    template_pdf_path = "Imagine Cup Junior Participation-2025.pdf"
+    template_pdf_path = "iOS Showcase.pdf"
     # output_dir = "pdf_certificates_output"
     
     output_dir = 'certificates'
